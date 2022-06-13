@@ -99,6 +99,9 @@ DATABASES = {
     'default': config('PSQL_DB_URL', default=default_dburl, cast=dburl),
 }
 
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
