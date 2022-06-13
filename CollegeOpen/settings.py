@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +75,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CollegeOpen.wsgi.application'
 
+DEFAULT_RENDERER_CLASSES = [
+    'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoObjectPermissions',
+    ),
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 15,
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
