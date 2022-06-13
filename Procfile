@@ -1,1 +1,1 @@
-web: gunicorn wsgi.py
+web: gunicorn CollegeOpen.wsgi
