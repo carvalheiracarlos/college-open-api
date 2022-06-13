@@ -19,6 +19,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("academic/", include("CollegeOpen.Academic.urls", namespace="Academic")),
     path('accounts/', include("django.contrib.auth.urls")),
     ### API SWAGGER ###
     path(
