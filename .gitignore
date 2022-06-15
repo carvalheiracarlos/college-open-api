@@ -5,7 +5,7 @@
 .wqme
 .ipynb
 *.sqlite3
-*pyc
+*.pyc
 __pycache__
 staticfiles/
 venv
@@ -18,3 +18,11 @@ erros.log
 .ipynb_checkpoints
 /docker/postgres_postgis/vol/*
 /docker/application/vol/*
+/CollegeOpen/__pycache__/*
+
+!.vscode/launch.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
