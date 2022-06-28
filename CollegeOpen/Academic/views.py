@@ -36,7 +36,7 @@ class StudentViewSet(mixins.CreateModelMixin, PermissionsByActionMixin,
     @swagger_auto_schema(operation_description='Detail current user information')
     @action(detail=False, methods=['get'], name='my-profile')
     def me(self, request):
-        instance = get_from_user(request.user.id)
+        instance = get_from_user(request.user.id, Student)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -64,6 +64,6 @@ class ProfessorViewSet(mixins.CreateModelMixin, PermissionsByActionMixin,
     @swagger_auto_schema(operation_description='Detail current user information')
     @action(detail=False, methods=['get'], name='my-profile')
     def me(self, request):
-        instance = get_from_user(request.user.id)
+        instance = get_from_user(request.user.id, Professor)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)

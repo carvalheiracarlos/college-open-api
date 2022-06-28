@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from CollegeOpen.Academic.models import Student 
 
 
-def get_from_user(user_id):
-    return Academic.objects.get_from_user(user_id)
+def get_from_user(user_id, Model):
+    return Model.objects.get_from_user(user_id)
 
 
 def user_create(username, email, password):
