@@ -3,7 +3,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.validators import UniqueValidator
 
 from django.contrib.auth.models import User
-from CollegeOpen.Academic.models import Academic
+from CollegeOpen.Academic.models import Student, Professor
 from CollegeOpen.Academic import services
 
 
@@ -23,15 +23,29 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password']
 
 
-class AcademicSerializer(serializers.ModelSerializer):
+class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
-        model = Academic 
+        model = Student 
         fields = ['id', 'user', 'name', 'registration',]
 
     def create(self, validated_data):
-        return services.create(**validated_data)
+        return services.create(**validated_data, Model=Student)
+
+    def update(self, instance, validated_data):
+        raise PermissionDenied()
+
+
+class ProfessorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Professor 
+        fields = ['id', 'user', 'name', 'registration',]
+
+    def create(self, validated_data):
+        return services.create(**validated_data, Model=Professor)
 
     def update(self, instance, validated_data):
         raise PermissionDenied()
