@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'CollegeOpen.Core',
     'CollegeOpen.Academic',
     'CollegeOpen.Locations',
+    'CollegeOpen.Disciplines',
     
     'rest_framework',
     'rest_framework_swagger',
