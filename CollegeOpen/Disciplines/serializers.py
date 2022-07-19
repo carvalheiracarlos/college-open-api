@@ -1,8 +1,9 @@
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from CollegeOpen.Academic.serializers import StudentReadSerializer, ProfessorReadSerializer
 from CollegeOpen.Locations.serializers import LocationSerializer
-from CollegeOpen.Disciplines.models import Discipline
+from CollegeOpen.Disciplines.models import Discipline, DisciplineReviews
 from CollegeOpen.Disciplines import services
 
 class CreateDisciplineSerializer(serializers.ModelSerializer):
@@ -47,3 +48,17 @@ class DisciplineListSerializer(serializers.ModelSerializer):
             'description',
             'long_description'
         ]
+
+class DisciplineReviewsCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DisciplineReviews
+        fields = [
+            'discipline',
+            'message',
+            'score'
+        ]
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return services.create_discipline_reviews(**validated_data)

@@ -57,3 +57,25 @@ class Equivalences(BaseModel):
     class Meta:
         verbose_name = 'Equivalencias'
         verbose_name_plural = 'Equivalencias'
+
+
+class DisciplineReviews(BaseModel):
+    student = models.ForeignKey(Student, verbose_name='Usuário', on_delete=models.CASCADE)
+    discipline = models.OneToOneField(
+        Discipline,
+        verbose_name='Disciplina',
+        null=True,
+        on_delete=models.CASCADE
+    )
+    message = models.TextField('Avaliação do Estudante', max_length=255, null=True)
+    scores_choices = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5')
+    )
+    score = models.PositiveSmallIntegerField('Nota da avaliação', choices=scores_choices, default=3)
+
+    class Meta:
+        verbose_name = 'Avaliação da disciplina'
