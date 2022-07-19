@@ -17,7 +17,7 @@ class Discipline(BaseModel):
         ('1', 'REMOTO'),
     )
 
-    compoent_type = models.SmallIntegerField('Tipo do Componente Curricular', choices=component_types, default=0)
+    component_type = models.SmallIntegerField('Tipo do Componente Curricular', choices=component_types, default=0)
     educational_mode = models.SmallIntegerField('Modalidades de Educação', choices=educational_modes_types, default=0)
     name = models.CharField('Nome da Disciplina', null=True, max_length=128)
     code = models.CharField('Código da Disciplina', null=True, max_length=48)
