@@ -1,6 +1,6 @@
 from rest_framework import serializers
+from django.core.serializers.json import Serializer as DjangoSerializer
 from CollegeOpen.Disciplines.models import Discipline
-from CollegeOpen.Disciplines.dto import DisciplineDTO
 
 from CollegeOpen.Disciplines import services
 
