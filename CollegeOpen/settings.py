@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from dj_database_url import parse as dburl
 from decouple import Csv, config
@@ -83,6 +84,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CollegeOpen.wsgi.application'
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60*4),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2)
+}
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
