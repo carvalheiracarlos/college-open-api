@@ -49,3 +49,19 @@ class ProfessorSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         raise PermissionDenied()
+
+
+class StudentReadSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(source='user.email')
+
+    class Meta:
+        model = Student
+        fields = ['registration', 'name', 'email']
+
+
+class ProfessorReadSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(source='user.email')
+
+    class Meta:
+        model = Professor
+        fields = ['registration', 'name', 'email']

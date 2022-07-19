@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from dj_database_url import parse as dburl
 from decouple import Csv, config
@@ -43,10 +44,14 @@ INSTALLED_APPS = [
     'CollegeOpen.Core',
     'CollegeOpen.Academic',
     'CollegeOpen.Locations',
-    
+    'CollegeOpen.Disciplines',
+
+    'allauth', 
+    'django_filters',
     'rest_framework',
     'rest_framework_swagger',
     'drf_yasg',
+    'oauth2_provider',
 ]
 
 MIDDLEWARE = [
@@ -80,11 +85,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CollegeOpen.wsgi.application'
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60*4),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2)
+}
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'oauth2_provider.backends.OAuth2Backend',
+)
+
+
 DEFAULT_RENDERER_CLASSES = [
     'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.DjangoObjectPermissions',
     ),
@@ -102,8 +126,19 @@ DATABASES = {
 }
 
 SWAGGER_SETTINGS = {
-   'USE_SESSION_AUTH': False
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Format: Bearer {JWT Token}'
+      }
+   }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
