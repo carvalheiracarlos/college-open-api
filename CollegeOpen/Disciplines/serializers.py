@@ -31,7 +31,19 @@ class DisciplineListSerializer(serializers.ModelSerializer):
     students = StudentReadSerializer(many=True)
     professor = ProfessorReadSerializer()
     location = LocationSerializer()
+    
 
     class Meta:
         model = Discipline
-        fields = ['discipline_name', 'discipline_code', 'students', 'professor', 'location']
+        fields = [
+            'discipline_name', 
+            'discipline_code', 
+            'students', 
+            'professor', 
+            'location',
+            'total_exams',
+            'flexible_program',
+            'online_registry',
+            'description',
+            'long_description'
+        ]
