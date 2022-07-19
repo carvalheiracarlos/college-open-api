@@ -6,9 +6,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from CollegeOpen.Core.mixins import PermissionsByActionMixin, SerializerClassByActionMixin
-from CollegeOpen.Disciplines.serializers import CreateDisciplineSerializer, DisciplineListSerializer
+from CollegeOpen.Disciplines.serializers import CreateDisciplineSerializer, DisciplineListSerializer, DisciplineReviewsCreateSerializer
 from CollegeOpen.Disciplines.filters import DisciplineFilter
-from CollegeOpen.Disciplines.models import Discipline
+from CollegeOpen.Disciplines.models import Discipline, DisciplineReviews
 from CollegeOpen.Academic.models import Professor, Student
 
 
@@ -55,3 +55,23 @@ class DisciplineViewSet(SerializerClassByActionMixin,
             return Response(status=201)
         except:
             return Response(status=403)
+
+
+
+class DisciplineReviewsViewSet(SerializerClassByActionMixin, 
+                        PermissionsByActionMixin, 
+                        mixins.CreateModelMixin, 
+                        mixins.ListModelMixin, 
+                        GenericViewSet,):
+                
+    permission_classes_by_action = {
+        'create': [IsAuthenticated],
+
+    }
+    serializer_action_classes = {
+        'create': DisciplineReviewsCreateSerializer,
+    }
+
+    filter_backends = [DjangoFilterBackend]
+    queryset = DisciplineReviews.objects.all()
+    
