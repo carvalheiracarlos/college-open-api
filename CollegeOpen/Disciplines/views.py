@@ -6,23 +6,32 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from CollegeOpen.Core.mixins import PermissionsByActionMixin, SerializerClassByActionMixin
-from CollegeOpen.Disciplines.serializers import CreateDisciplineSerializer
+from CollegeOpen.Disciplines.serializers import CreateDisciplineSerializer, DisciplineListSerializer
+from CollegeOpen.Disciplines.filters import DisciplineFilter
 from CollegeOpen.Disciplines.models import Discipline
 from CollegeOpen.Academic.models import Professor, Student
 
 
 
-class DisciplineViewSet(SerializerClassByActionMixin, PermissionsByActionMixin, mixins.CreateModelMixin, GenericViewSet,):
+class DisciplineViewSet(SerializerClassByActionMixin, 
+                        PermissionsByActionMixin, 
+                        mixins.CreateModelMixin, 
+                        mixins.ListModelMixin, 
+                        GenericViewSet,):
+                
     permission_classes_by_action = {
         'create': [IsAdminUser],
+        'list': [IsAuthenticated],
         'update_professor': [IsAdminUser],
         'update_students': [IsAuthenticated]
 
     }
     serializer_action_classes = {
         'create': CreateDisciplineSerializer,
+        'list': DisciplineListSerializer,
     }
     filter_backends = [DjangoFilterBackend]
+    filter_class = DisciplineFilter
     queryset = Discipline.objects.all()
     
     @action(detail=True, methods=['put'], name='update_professor')
