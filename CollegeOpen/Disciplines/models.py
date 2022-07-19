@@ -61,7 +61,7 @@ class Equivalences(BaseModel):
 
 class DisciplineReviews(BaseModel):
     student = models.ForeignKey(Student, verbose_name='Usuário', on_delete=models.CASCADE)
-    discipline = models.OneToOneField(
+    discipline = models.ForeignKey(
         Discipline,
         verbose_name='Disciplina',
         null=True,
