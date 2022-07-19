@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -24,9 +25,8 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('', auth_views.LoginView.as_view(), name='login'),
+    #path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('admin/', admin.site.urls),
     path("academic/", include("CollegeOpen.Academic.urls", namespace="Academic")),
     path('accounts/', include("django.contrib.auth.urls")),
@@ -38,7 +38,7 @@ urlpatterns = [
         name='schema-json'
     ),
     path(
-        '',
+        'swagger/',
         schema_view.with_ui('swagger', cache_timeout=0),
         name='schema-swagger-ui'
     ),
