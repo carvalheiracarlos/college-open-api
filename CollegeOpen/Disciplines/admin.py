@@ -1,3 +1,16 @@
 from django.contrib import admin
 
-# Register your models here.
+from CollegeOpen.Disciplines.models import (
+    Discipline,
+    PreRequirements,
+    CoRequirements,
+    Equivalences
+)
+
+
+admin.site.register([
+    Discipline,
+    PreRequirements,
+    CoRequirements,
+    Equivalences
+])
