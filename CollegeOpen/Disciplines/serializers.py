@@ -3,7 +3,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from CollegeOpen.Academic.serializers import StudentReadSerializer, ProfessorReadSerializer
 from CollegeOpen.Locations.serializers import LocationSerializer
-from CollegeOpen.Disciplines.models import Discipline, DisciplineReviews
+from CollegeOpen.Disciplines.models import Discipline, DisciplineReviews, Equivalences
 from CollegeOpen.Disciplines import services
 
 class CreateDisciplineSerializer(serializers.ModelSerializer):
@@ -32,7 +32,15 @@ class DisciplineListSerializer(serializers.ModelSerializer):
     students = StudentReadSerializer(many=True)
     professor = ProfessorReadSerializer()
     location = LocationSerializer()
-    
+    reviews = serializers.SerializerMethodField()
+    stats = serializers.SerializerMethodField()
+
+    def get_reviews(self, obj):
+        return Discipline.objects.reviews(obj.id)
+
+    def get_stats(self, obj):
+        return Discipline.objects.stats(obj.id)
+
 
     class Meta:
         model = Discipline
@@ -46,7 +54,9 @@ class DisciplineListSerializer(serializers.ModelSerializer):
             'flexible_program',
             'online_registry',
             'description',
-            'long_description'
+            'long_description',
+            'reviews',
+            'stats'
         ]
 
 class DisciplineReviewsCreateSerializer(serializers.ModelSerializer):

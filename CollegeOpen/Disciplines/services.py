@@ -10,6 +10,9 @@ def create_discipline_reviews(user, discipline, message, score):
     if not Discipline.objects.filter(id=discipline.id).filter(students__id=user.student.id):
         raise PermissionDenied('Estudante Não Matriculado')
 
+    if DisciplineReviews.objects.filter(student=user.student.id):
+        raise PermissionDenied('Estudante Já fez o Review dessa disciplina')
+
     else:
         student = Student.objects.get(id=user.student.id)
         data = {

@@ -55,13 +55,11 @@ class DisciplineViewSet(SerializerClassByActionMixin,
             return Response(status=201)
         except:
             return Response(status=403)
-
-
+    
 
 class DisciplineReviewsViewSet(SerializerClassByActionMixin, 
                         PermissionsByActionMixin, 
                         mixins.CreateModelMixin, 
-                        mixins.ListModelMixin, 
                         GenericViewSet,):
                 
     permission_classes_by_action = {
@@ -72,6 +70,5 @@ class DisciplineReviewsViewSet(SerializerClassByActionMixin,
         'create': DisciplineReviewsCreateSerializer,
     }
 
-    filter_backends = [DjangoFilterBackend]
     queryset = DisciplineReviews.objects.all()
     

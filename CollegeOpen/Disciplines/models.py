@@ -1,5 +1,6 @@
 from django.db import models
 from CollegeOpen.Core.models import BaseModel
+from CollegeOpen.Disciplines.repository import DisciplineQueryset
 from CollegeOpen.Academic.models import Student, Professor  
 from CollegeOpen.Locations.models import Location
 
@@ -30,6 +31,8 @@ class Discipline(BaseModel):
     description = models.TextField('Descrição da Ementa', null=True, blank=True, max_length=512) 
     long_description = models.FileField('Descrição da Ementa', null=True, blank=True, upload_to='disciplines/description/') 
 
+    objects = DisciplineQueryset.as_manager()
+
     class Meta:
         verbose_name = 'Disciplina' 
         verbose_name_plural = 'Disciplinas' 
@@ -52,7 +55,7 @@ class CoRequirements(BaseModel):
 
 
 class Equivalences(BaseModel):
-    disciplines = models.ManyToManyField(Discipline, verbose_name='equivalencias', blank=True)
+    disciplines = models.ManyToManyField(Discipline, related_name='equivalences', verbose_name='equivalencias', blank=True)
 
     class Meta:
         verbose_name = 'Equivalencias'
@@ -61,9 +64,10 @@ class Equivalences(BaseModel):
 
 class DisciplineReviews(BaseModel):
     student = models.ForeignKey(Student, verbose_name='Usuário', on_delete=models.CASCADE)
-    discipline = models.OneToOneField(
+    discipline = models.ForeignKey(
         Discipline,
         verbose_name='Disciplina',
+        related_name='reviews',
         null=True,
         on_delete=models.CASCADE
     )
